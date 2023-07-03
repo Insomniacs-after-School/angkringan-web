@@ -1,0 +1,13 @@
+.Produk-row{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem,1fr));
+    gap: 1.5rem;
+    margin-top: 10rem;
+    padding: 1.4rem 7%;
+}
+.produk-card{
+    text-align: center;
+    border: 1px solid #6666;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+}
