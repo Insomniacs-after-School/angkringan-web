@@ -30,7 +30,7 @@ const NavbarAdmin = () => {
                     )
                 })}
                 <Button className='nav-button'>
-                    <Link className="nav-button"to={"/login"}>Login</Link>
+                    <Link className="nav-button"to={"/login"}>log out</Link>
                     </Button>
                 </ul>
             </div>

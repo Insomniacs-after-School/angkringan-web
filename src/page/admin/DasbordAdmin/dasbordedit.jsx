@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './dasbord.css'
-import {Button}from'../../../componen/button/Button'
+import {Button} from'../../../componen/button/Button'
 import NavbarAdmin from "../navbarAdmin/nabarAdmin";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 const Edit = ()=>{
     const [inputDate, setInputDate] = useState({
@@ -13,29 +13,46 @@ const Edit = ()=>{
         alamat:'',
         pesan:''
     })
-
     const navigate= useNavigate()
-
     const hendelSudmit =(e)=>{
         e.preventDefault();
-        axios.post("http://localhost:5000/saran",inputDate,
+        axios.patch("http://localhost:5000/saran",inputDate,
         )
         .then(res =>{
             alert("sukses")
             navigate("/Dasbord")
         })
     }
-
-
+    
+    useEffect(()=>{
+        getProductsById()
+    },[])
     
     const [inName, setInname] =useState('')
     const [inFoto, setInfoto] =useState('')
     const [inHarga, setInharga] =useState('')
     const [inJenis, setInjenis] =useState('')
+    const [Preview, setPreview] =useState('')
     const navigatet= useNavigate()
-
+    
+    const loadImage =(e) =>{
+        const image = e.target.files[0]
+        setInfoto(image)
+        setPreview(URL.createObjectURL(image))
+    }
+    const {id}= useParams()
+    const getProductsById = async() =>{
+        const response= await axios.Axiosget(`http://localhost:5000/products/${id}`)
+        const productData = response.data;
+        setInname(productData.data.name);
+        setInharga(productData.data.harga);
+        setInfoto(productData.data.foto);
+        setInjenis(productData.data.jenis);
+        setPreview(productData.data.foto)
+    }
+    
     const hendelSudmitPro = async(e)=>{
-
+        
         e.preventDefault();
         const formData = new FormData();
         formData.append('name',inName)
@@ -63,7 +80,14 @@ const Edit = ()=>{
                     <label htmlFor="email">foto</label>
                         <input type="file" placeholder="email"
                         foto='foto' 
-                        onChange={(e)=>setInfoto(e.target.files[0])}/>
+                        onChange={loadImage}/>
+                        {Preview ? (
+                            <figure className="image">
+                                <img src={Preview} alt="preview image" />
+                            </figure>
+                        ) : (
+                            <p>No preview available</p>
+                        )}
                     </div>
                     <div className="inputbox">
                         <label htmlFor="harga">harga</label>

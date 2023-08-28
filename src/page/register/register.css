@@ -1,44 +1,43 @@
 
-.main-login{
+.main-regis{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
-.row-login{
+.row-regis{
     margin-top: 9rem;
-    width: 50vh;
-    height: 50vh;
+    width: 80vh;
+    height: 80vh;
     text-align: center;
     padding-right: 2.5rem;
     background-color: #ebdede85;
 }
-.row-login h1 {
+.row-regis h1 {
     font-size: 2rem;
     color: rgb(32, 32, 32);
 }
 
 
-.input-login{
+.input-regis{
     display: flex;
     margin: 1rem;
     flex-direction: column;
 }
-.input-login label{
+.input-regis label{
     font-size: 1rem;
     color: rgb(0, 0, 0);
     text-align: left;
     margin: 0.5rem;
 }
-.input-login input{
+.input-regis input{
     width: 100%;
     padding: 1rem;
     font-size: 1.5rem;
    background-color: #b8b6b618;
    color: rgb(0, 0, 0);
 }
-.login-buton{
+.regis-buton{
     background-color: #D6591E;
     color: white;
     border: none;
@@ -49,10 +48,6 @@
     border-radius: 10px;
 }
 
-.login-buton:hover{
+.regis-buton:hover{
     background-color: #d6581ed0;
-}
-.nottif{
-    color: red;
-    padding: 1rem;
 }

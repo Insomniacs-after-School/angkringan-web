@@ -1,7 +1,7 @@
 export const MenuAdmin = [
     {
         title: 'Home',
-        url:'/Dasbord',
+        url:'/Dashboard',
         cName: 'nav-link'
     },
     {

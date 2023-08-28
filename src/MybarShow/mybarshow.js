@@ -8,7 +8,7 @@ const MybarShow=({children})=>{
     const [showNavbar, setShowNavar]= useState(false)
     useEffect(()=>{
         console.log('this is lokation',loction)
-        if(loction.pathname ==='/login'||loction.pathname ==='/Dasbord'||loction.pathname ==='/Dasbordinput'){
+        if(loction.pathname ==='/login'||loction.pathname ==='/Dashboard'||loction.pathname ==='/Dasbordinput'||loction.pathname ==='/Registrasi'){
             setShowNavar(false)
         }else{
             setShowNavar(true)

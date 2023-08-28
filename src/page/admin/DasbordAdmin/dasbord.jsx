@@ -1,10 +1,35 @@
-import React from "react";
-import { useEffect,useState } from 'react'
+import { React,useEffect,useState } from 'react'
 import NavbarAdmin from "../navbarAdmin/nabarAdmin";
 import axios from 'axios'
 import { Button } from "../../../componen/button/Button";
-import { useNavigate ,Link } from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
+//import jwtDecode from "jwt-decode";
 const Dasbord = ()=>{
+
+
+    // const [name, setName]= useState('')
+    // const [accessToken, setaccessToken]= useState('')
+
+    // useEffect(()=>{
+    //     refreshToken()
+    // },[])
+    // const config = {
+    //     headers: {
+    //         Authorization: `Bearer ${accessToken}`
+    //         }
+    //     };
+    // const refreshToken = async()=>{
+    //     try {
+    //         const response = await axios.get("http://localhost:5000/token");
+    //         console.log(response)
+    //         const decocded = jwtDecode(response.data.data.accessToken)
+    //         // console.log(decocded)
+    //         setaccessToken(response.data.data.token);
+    //         setName(decocded.name)
+    //     } catch (error) {
+    //         console.error('Error refreshing token:', error);
+    //     }
+    // }
     const [products, setPoroducts]= useState([])
     const [masukan, setMasukan]= useState([])
     // const [notification, setNotification] = useState('');
@@ -13,19 +38,49 @@ const Dasbord = ()=>{
     useEffect(()=>{
         getProducts()
         getMasukan()
+        // getUser()
     },[])
 
     const getProducts = async()=>{
-        const products = await axios.get("http://localhost:5000/products");
-        setPoroducts(products.data.data)
+        const storedAccessToken = localStorage.getItem('Token');
+        console.log(storedAccessToken)
+
+        try {
+            
+            const products = await axios.get("http://localhost:5000/products",{
+                headers: {
+                    Authorization: `Bearer ${storedAccessToken}`
+                }
+            });
+            setPoroducts(products.data.data)
+        } catch (error) {
+            
+        }
+
+        
+        
     }
+    // const getUser = async()=>{
+    //     try {
+    //         const accessToken = localStorage.getItem('Token');
+    //         console.log(accessToken)
+    //     const products = await axios.get("http://localhost:5000/user",{
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`
+    //           }
+    //     });
+    //     console.log(products.data.data)
+    //     } catch (error) {
+    //         console.error("Error fetching products:", error);
+    //     }
+    // }
     const deletProducts  = async(id)=>{
         if (window.confirm('Anda yakin ingin menghapus produk ini?')) {
             await axios.delete(`http://localhost:5000/products/${id}`)
             .then(() => {
                 // setNotification('Produk berhasil dihapus.');
                 getProducts();
-                navigatet("/Dasbord")
+                navigatet("/Dashboard")
             }).catch((error) => {
                 // Tangani kesalahan jika ada
                 console.error(error);
@@ -67,15 +122,18 @@ const Dasbord = ()=>{
     return(
         <div className="Dasbord">
             <NavbarAdmin/>
+            
+            {/* <h1>welcome : {name}</h1> */}
+            {/* /*<button onClick={refreshToken}>Refresh Token</button> */}
             <div className=" tabel-Produc">
             <h1>Tabel Products</h1>
             <table className="table">
                 <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Foto</th>
-                        <th>Harga</th>
-                        <th>Jenis</th>
+                <tr>
+                <th>Nama</th>
+                <th>Foto</th>
+                <th>Harga</th>
+                <th>Jenis</th>
                         <th>edit&hapus</th>
                     </tr>
                 </thead>
@@ -88,7 +146,7 @@ const Dasbord = ()=>{
                                 <td>{item.harga}</td>
                                 <td>{item.jenis}</td>
                                 <td>
-                                    <Button type='submite'className='edit-button'>edit</Button>
+                                    <Link to={`DasbordEdit/${item.id}`} className='edit-button'>edit</Link>
                                     <button className='hapus-button' onClick={() => deletProducts(item.id)  }>hapus</button>
                                 </td>
                             </tr>

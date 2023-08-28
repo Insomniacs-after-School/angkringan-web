@@ -5,7 +5,6 @@ import NavbarAdmin from "../navbarAdmin/nabarAdmin";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 const InputDas = ()=>{
     const [inputDate, setInputDate] = useState({
         name:'',
@@ -32,19 +31,29 @@ const InputDas = ()=>{
     const [inFoto, setInfoto] =useState('')
     const [inHarga, setInharga] =useState('')
     const [inJenis, setInjenis] =useState('')
+    const [Preview, setPreview] =useState('')
     const navigatet= useNavigate()
+    const loadImage =(e) =>{
+        const image = e.target.files[0]
+        setInfoto(image)
+        setPreview(URL.createObjectURL(image))
 
+    }
     const hendelSudmitPro = async(e)=>{
-
         e.preventDefault();
         const formData = new FormData();
         formData.append('name',inName)
         formData.append('foto', inFoto)
         formData.append('harga', inHarga)
         formData.append('jenis', inJenis)
-        await axios.post("http://localhost:5000/products",formData ).then(res =>{
+        await axios.post("http://localhost:5000/products",formData,{
+            headers:{
+                "Content-Type":"multipart/form-date"
+            }
+        }
+        ).then(res =>{
             alert("sukses")
-            navigatet("/Dasbord")
+            navigatet("/Dashboard")
         })
     }   
     return(
@@ -63,7 +72,14 @@ const InputDas = ()=>{
                     <label htmlFor="email">foto</label>
                         <input type="file" placeholder="email"
                         foto='foto' 
-                        onChange={(e)=>setInfoto(e.target.files[0])}/>
+                        onChange={loadImage}/>
+            {Preview ? (
+                <figure className="image">
+                    <img src={Preview} alt="preview image" />
+                </figure>
+            ) : (
+                <p>No preview available</p>
+            )}
                     </div>
                     <div className="inputbox">
                         <label htmlFor="harga">harga</label>
